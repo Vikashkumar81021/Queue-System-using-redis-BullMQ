@@ -1,14 +1,19 @@
 import { welcomeMail } from "../queue/welcome.email";
 
-let user = [];
-const registerUser = async (req, res) => {
+let users = [];
+export const registerUser = async (req, res) => {
   try {
     const { userName, email, password } = req.body;
     if (!userName || !email || !password) {
       return res.status(400).json({ message: "Missing fileds are required" });
     }
 
-    user.push(userName, email, password);
+    users.push({
+      userName,
+      email,
+      password,
+    });
+    console.log("user", users);
     const job = await welcomeMail.add(
       "send-welcome-email",
       {

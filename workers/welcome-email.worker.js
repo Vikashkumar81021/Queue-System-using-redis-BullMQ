@@ -6,6 +6,9 @@ export const sendWelcomeEmailWorker = new Worker(
   async (job) => {
     console.log("Job recived", job.data.email);
     console.log("processing email for sending welcome");
+
+    //here email service fail
+    throw new Error("Email service temporarily failed");
   },
   {
     connection: redis,

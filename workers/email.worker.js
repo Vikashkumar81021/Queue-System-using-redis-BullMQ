@@ -9,7 +9,7 @@ const emailWorker = new Worker(
   async (job) => {
     console.log("Job received:", job.id);
     console.log("Email:", job.data.email);
-
+    console.log("job", job.isActive);
     console.log("Processing email...");
     throw new Error("Email service failed");
   },
@@ -17,6 +17,7 @@ const emailWorker = new Worker(
     connection: redis,
   },
 );
+
 emailWorker.on("completed", (job) => {
   console.log(`Job ${job.id} completed`);
 });
@@ -35,6 +36,7 @@ emailWorker.on("failed", (job, err) => {
     err.message,
     `attemptsMade: ${job.attemptsMade}`,
   );
+
   if (job.attemptsMade >= job.opts.attempts) {
     console.log(`job ${job.id} reache maximum`);
     emailDLQ.add("failed-email", {
