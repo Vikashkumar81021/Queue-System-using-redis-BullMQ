@@ -10,3 +10,6 @@ export default emailQueue;
 export const videoQueue = new Queue("upload-video", {
   connection: redis,
 });
+export const mailQueue = new Queue("mail-queue", {
+  connection: redis,
+});
