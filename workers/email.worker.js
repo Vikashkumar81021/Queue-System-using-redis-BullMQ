@@ -2,7 +2,8 @@ import { Worker } from "bullmq";
 
 import redis from "../config/redis.js";
 import emailDLQ from "../queue/email.dlq.js";
-
+// Subscriber / Consumer = Worker
+// Worker → job consume/process karta hai
 const emailWorker = new Worker(
   "email-queue",
   async (job) => {
@@ -19,7 +20,15 @@ const emailWorker = new Worker(
 emailWorker.on("completed", (job) => {
   console.log(`Job ${job.id} completed`);
 });
+const videoWorker = new Worker("upload-video", async (job) => {
+  console.log("Job Recived:", job.id);
+  console.log("video", job.data.video);
 
+  console.log("video upload processing start");
+});
+videoWorker.on("completed", (jobId) => {
+  console.log(`Job ${jobId.id} completed`);
+});
 emailWorker.on("failed", (job, err) => {
   console.log(
     `Job ${job.id} failed`,
