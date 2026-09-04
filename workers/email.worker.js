@@ -1,5 +1,4 @@
 import { Worker } from "bullmq";
-
 import redis from "../config/redis.js";
 import emailDLQ from "../queue/email.dlq.js";
 // Subscriber / Consumer = Worker

@@ -13,7 +13,6 @@ export const registerUser = async (req, res) => {
       email,
       password,
     });
-    console.log("user", users);
     const job = await welcomeMail.add(
       "send-welcome-email",
       {
